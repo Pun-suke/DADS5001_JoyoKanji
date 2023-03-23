@@ -121,6 +121,28 @@ jukugo.info()
 ![image](https://user-images.githubusercontent.com/126036942/227130629-f82f8427-7350-405f-a67e-379d3a41d00c.png)
 
 ## Merge Data
+Dataframe ของ kanji และ mainichi ประกอบด้วยคันจิในชีวิตประจำวันเหมือนกัน จึงตรวจสอบตัวคันจิก่อนว่าข้อมูลเหมือนกันทุกตัวหรือไม่ และพบว่ามีคันจิ 2 ตัวที่แตกต่างกัน
+```
+display(kanji[~kanji['index'].isin(mainichi['Kanji'])])
+display(mainichi[~mainichi['Kanji'].isin(kanji['index'])])
+```
+
+![image](https://user-images.githubusercontent.com/126036942/227134932-465dd3ff-13d7-4e6a-9382-3f87b7295608.png)
+
+จากการตรวจสอบพบว่า 塡 และ 頰 เป็นคันจิแบบเก่าซึ่งปัจจุบันมีการอัพเดทใหม่และใช้เป็น 填 และ 頬 แทนแล้ว จึงแก้คันจิรูปแบบเก่าเป็นแบบปัจจุบันให้ข้อมูลตรงกัน
+```
+kanji.loc[2134,'index'] = '填'
+kanji.loc[2135,'index'] = '頬'
+```
+หลังจากข้อมูลตรงกันแล้วจึงเรา Dataframe ทั้งสองมา Merge กันและ drop column ที่ซ้ำทิ้งและตรวจสอบความเรียบร้อยของข้อมูลอีกครั้ง
+```
+m_kanji = pd.merge(kanji[['index','jlpt_old','jlpt_new']], mainichi[:], left_on='index', right_on='Kanji')
+m_kanji = m_kanji.drop(['id','Kanji'], axis=1)
+m_kanji.info()
+```
+![image](https://user-images.githubusercontent.com/126036942/227136672-f340d3c6-1ff9-4c05-9c48-6a0f6ac83212.png)
+
+
 
 
 ## Univariate Analysis
