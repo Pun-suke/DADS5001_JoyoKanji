@@ -17,19 +17,37 @@ By: Pisit Kuensuwan (Student ID: 6510422022)
 # Exploratory Data Analysis (EDA)
 ## Import Libraries & Data
 1. Import Libraries ที่ต้องใช้ในการวิเคราะห์ข้อมูล อาทิ pandas, numpy, matplotlib และ seaborn
-
-![image](https://user-images.githubusercontent.com/126036942/226324088-f25a27a1-7e42-4453-b7db-fbb0910b23fd.png)
+```
+import sys
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+%matplotlib inline
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.style.use('seaborn')
+```
 
 2. Import Data ซึ่งใช้ในงานครั้งนี้ทั้งหมด 3 ไฟล์ด้วยกัน
 
 - ข้อมูลคันจิในชีวิตประจำวัน + ข้อมูลคันจิ JLPT แบบเก่าและใหม่ : 2,136 rows / 14 columns
-![image](https://user-images.githubusercontent.com/126036942/226325608-8f7ee7d6-db68-4c20-ad83-b5e8a2ccd2e4.png)
+```
+kanji = pd.read_json('https://raw.githubusercontent.com/davidluzgouveia/kanji-data/master/kanji-jouyou.json')
+kanji = kanji.T.reset_index()
+kanji
+```
 
 - คันจิในชีวิตประจำวัน + ข้อมูลความถี่ในการปรากฎในหนังสือพิมพ์ไมนิจิ (毎日新聞) ช่วงปี 2000-2010 : 2,136 rows / 68 columns
-![image](https://user-images.githubusercontent.com/126036942/226326051-db93f314-b70f-46cd-a2e3-98e0779f3d73.png)
+```
+mainichi = pd.read_csv('KanjiTable.csv')
+mainichi
+```
 
 - ข้อมูลความถี่ของคันจิผสม 2 ตัวที่ปรากฎในหนังสือพิมพ์ไมนิจิ (毎日新聞) ช่วงปี 2000-2010 : 27,950 rows / 6 columns
-![image](https://user-images.githubusercontent.com/126036942/226325786-ce59c434-33bc-463e-936e-4f6c09c6ebaf.png)
+```
+jukugo = pd.read_csv('JukugoTable.csv',';')
+jukugo
+```
 
 ## Cleanse & Reshape Data
 1. ตรวจสอบและแก้ไขไฟล์ที่ 1: พบว่ามี Null ทั้งหมด 8 columns แต่ข้อมูลที่คาดว่าจะใช้จริงมีเพียง 2 columns คือ jlpt_old และ jlpt_new
