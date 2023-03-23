@@ -58,7 +58,7 @@ jukugo.head()
 
 
 ## Cleanse & Reshape Data
-**1. ตรวจสอบและแก้ไข Dataframe ที่ 1(kanji):** พบว่ามี Null ทั้งหมด 8 columns แต่ข้อมูลที่คาดว่าจะใช้จริงมีเพียง 2 columns คือ "jlpt_old" และ "jlpt_new"
+**1. ตรวจสอบและแก้ไข Dataframe ที่ 1 (kanji):** พบว่ามี Null ทั้งหมด 8 columns แต่ข้อมูลที่คาดว่าจะใช้จริงมีเพียง 2 columns คือ "jlpt_old" และ "jlpt_new"
 ![image](https://user-images.githubusercontent.com/126036942/227119504-fee311fe-5d9a-477c-9237-f91c37d7cd39.png)
 
 - ตรวจสอบข้อมูล jlpt_old และ jlpt_new พบว่าเป็นคันจิในชีวิตประจำวันที่อยู่นอกข้อสอบ JLPT จึงทำการแก้ไขให้ Null เป็น 0
@@ -70,9 +70,12 @@ kanji['jlpt_new'].fillna(0, inplace=True)
 - ตัด column ของ freq หรือจัดลำดับความถี่ในการใช้งานคันจิซึ่งไม่ได้ใช้ และตัด column ข้อมูลเกี่ยวกับ wk หรือ WaniKani ซึ่งเป็นระดับการศึกษาภาษาญี่ปุ่นสำหรับต่างชาติที่ไม่ได้เป็นที่นิยมในไทย
 ```
 kanji = kanji.iloc[:,[0,1,4,5,6,7,8]]
+kanji.info()
 ```
+![image](https://user-images.githubusercontent.com/126036942/227129663-cb3b5f14-fe57-468c-aefb-67887fab1ee6.png)
 
-**2. ตรวจสอบและแก้ไข Dataframe ที่ 2(mainichi):** พบว่ามี Null ค่อนข้างหลาย columns ด้วยกัน แต่ที่ใช้คาดว่าจะใช้งานมี 3 columns ด้วยกัน คือ "Reading beyond Joyo", "On within Joyo" และ "Translation of Kun"
+
+**2. ตรวจสอบและแก้ไข Dataframe ที่ 2 (mainichi):** พบว่ามี Null ค่อนข้างหลาย columns ด้วยกัน แต่ที่ใช้คาดว่าจะใช้งานมี 3 columns ด้วยกัน คือ "Reading beyond Joyo", "On within Joyo" และ "Translation of Kun"
 
 ![image](https://user-images.githubusercontent.com/126036942/227120452-c8d31867-4e39-41b6-809b-4dff63b72431.png)
 
@@ -102,6 +105,24 @@ mainichi.iloc[:,[1,8,14,19]][mainichi['Translation of Kun'].isnull()]
 ```
 mainichi.fillna({'Translation of Kun': {1216: mainichi.iloc[1797,14] , 1797:'-'}},inplace=True)
 ```
+
+- ตัด column ที่คาดว่าจะไม่ใช้ออก
+```
+mainichi = mainichi.iloc[:, 0:21]
+mainichi.info()
+```
+![image](https://user-images.githubusercontent.com/126036942/227130028-467c22b6-347c-4ec0-a0e9-0470b50fd475.png)
+
+**3. ตรวจสอบและแก้ไข Dataframe ที่ 3 (่jukugo):** พบว่ามีข้อมูลค่อนข้างเรียบร้อย มีแค่ column "English Translation" ที่มี Null อยู่เล็กน้อย แต่คาดว่าจะไม่ได้ใช้ข้อมูลตรงนั้นจึงแก้ไข Null เป็น "-" ทั้งหมด
+```
+jukugo['English Translation'].fillna('-', inplace=True)
+jukugo.info()
+```
+![image](https://user-images.githubusercontent.com/126036942/227130629-f82f8427-7350-405f-a67e-379d3a41d00c.png)
+
+## Merge Data
+
+
 ## Univariate Analysis
 
 ## Bivariate Analysis
