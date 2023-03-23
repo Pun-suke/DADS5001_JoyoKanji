@@ -92,7 +92,16 @@ mainichi.iloc[:,[1,8,10,15,11,17]][mainichi['On within Joyo'].isnull()]
 mainichi['On within Joyo'].fillna('nan', inplace=True)
 ```
 
+- ตรวจสอบ column "Translation of Kun" พบว่าเมื่อเทียบข้อมูลกับ column "Reading within Joyo" แล้ว หากไม่มีแต่เสียงอ่าน Kun (เขียนแทนด้วย Hiragana）"Translation of Kun" จะมี value เป็น "-" และถ้าหากมีเสียงอ่านก็จะมี value เป็นคำแปลภาษาอังกฤษใน column นั้น ซึ่งพบว่าคันจิ "双" มีเสียงอ่าน Kun จึงก็อปปี้ความหมายจาก column "Translation of On" มาใส่แทนเนื่องจากโดยปกติแล้วความหมายจะคล้ายคลึงกัน แต่คันจิ "弊" ไม่มีเสียงอ่าน Kun จึงแก้ value เป็น "-" แทนให้เหมือนกับ row อื่นๆ
 
+Note：column "Reading within Joyo" จะแทนเสียงอ่าน Kun ด้วยตัวอักษร Hiragana และแทนเสียงอ่าน On ด้วยตัวอักษร Katakana
+```
+mainichi.iloc[:,[1,8,14,19]][mainichi['Translation of Kun'].isnull()]
+```
+![image](https://user-images.githubusercontent.com/126036942/227128050-bfff67d5-7d6c-4dcd-9a4d-b34e9bd06de8.png)
+```
+mainichi.fillna({'Translation of Kun': {1216: mainichi.iloc[1797,14] , 1797:'-'}},inplace=True)
+```
 ## Univariate Analysis
 
 ## Bivariate Analysis
